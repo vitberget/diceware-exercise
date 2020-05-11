@@ -8,9 +8,9 @@ fun main(vararg args: String) {
 
     val numberOfWords = parseArguments(args)
     val words = getSomeWords(numberOfWords)
-    val password = doRandomLetter(words).joinToString(" ")
 
-    println(password)
+    println(words.joinToString(" "))
+    println(doRandomLetter(words).joinToString(" "))
 }
 
 private fun doRandomLetter(words: List<String>): List<String> {
@@ -40,7 +40,7 @@ private fun getValidDice(size: Int): Int {
 
     while (true) {
         val dice = rollDice()
-        if (dice <= size + 1) return dice
+        if (dice <= size) return dice
     }
 }
 

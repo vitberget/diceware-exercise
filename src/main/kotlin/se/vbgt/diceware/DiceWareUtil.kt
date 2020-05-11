@@ -3,7 +3,7 @@ package se.vbgt.diceware
 object DiceWareUtil {
 
     private val rollWordMap: Map<List<Int>, String> by lazy {
-        DiceWareUtil.javaClass.getResource("/se/vbgt/diceware/diceware.wordlist.asc")
+        javaClass.getResource("/se/vbgt/diceware/diceware.wordlist.asc")
             .readText()
             .lines()
             .filter { it.isNotEmpty() }
