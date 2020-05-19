@@ -3,12 +3,16 @@ package se.vbgt.diceware
 object DiceWareUtil {
 
     private val rollWordMap: Map<List<Int>, String> by lazy {
+        // Det som är inom paranteserna i regex-strängen är groups,
+        // innehållet i group:sen kan man sedan hämta i matchResultet
+        // (se mapRegexGroups)
         val regex = """^([0-9]{5})\t(.+)$""".toRegex()
+
         javaClass.getResource("/se/vbgt/diceware/diceware.wordlist.asc")
             .readText()
             .lines()
             .map { regex.find(it) }
-            .filterNotNull()
+            .filterNotNull() // null = inte match på den raden
             .map { mapRegexGroups(it) }
             .toMap()
     }
