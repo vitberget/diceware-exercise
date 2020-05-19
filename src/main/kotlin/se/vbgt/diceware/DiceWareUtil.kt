@@ -3,14 +3,20 @@ package se.vbgt.diceware
 object DiceWareUtil {
 
     private val rollWordMap: Map<List<Int>, String> by lazy {
+        val regex = """^([0-9]{5})\t(.+)$""".toRegex()
         javaClass.getResource("/se/vbgt/diceware/diceware.wordlist.asc")
             .readText()
             .lines()
-            .filter { it.isNotEmpty() }
-            .map { it.split("""\t""".toRegex()) }
-            .filter { it.size == 2 }
-            .map { it[0].toCharArray().toList().map { it - '0' } to it[1] }
+            .map { regex.find(it) }
+            .filterNotNull()
+            .map { mapRegexGroups(it) }
             .toMap()
+    }
+
+    private fun mapRegexGroups(matchResult: MatchResult): Pair<List<Int>, String> {
+        val key = matchResult.groupValues[1].map { it - '0' }
+        val value = matchResult.groupValues[2]
+        return key to value
     }
 
     fun mapWords(vararg wordRoll: List<Int>): Map<List<Int>, String> {
